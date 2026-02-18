@@ -9,6 +9,7 @@ export interface UserProfile {
   isUninstalled: boolean;
   lastActiveDays: number;
   competitorSignal: boolean;
+  installSource: 'Organic' | 'Inorganic';
 }
 
 export interface UserScores {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { UserProfile, PricingDecision } from '../types';
 import { analyzeUser } from '../services/pricingEngine';
 import { generateUserInsight } from '../services/geminiService';
-import { RefreshCw, Smartphone, Globe, ShoppingCart, Activity, AlertTriangle, Zap, CheckCircle, Sparkles } from 'lucide-react';
+import { RefreshCw, Smartphone, Globe, ShoppingCart, Activity, AlertTriangle, Zap, CheckCircle, Sparkles, Download } from 'lucide-react';
 
 export const UserSimulator: React.FC = () => {
   const [user, setUser] = useState<UserProfile>({
@@ -16,6 +16,7 @@ export const UserSimulator: React.FC = () => {
     isUninstalled: false,
     lastActiveDays: 5,
     competitorSignal: false,
+    installSource: 'Organic',
   });
 
   const [decision, setDecision] = useState<PricingDecision | null>(null);
@@ -55,10 +56,52 @@ export const UserSimulator: React.FC = () => {
           <h3 className="text-lg font-semibold mb-4 text-slate-700">User Attributes</h3>
           
           <div className="space-y-4">
-            {/* Device & Location */}
-            <div className="grid grid-cols-2 gap-4">
+             {/* Device & Source */}
+             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">Device Type</label>
+                <label className="block text-sm font-medium text-slate-600 mb-1">Install Source</label>
+                <div className="flex rounded-md shadow-sm border border-slate-200 overflow-hidden">
+                  <button
+                    onClick={() => updateField('installSource', 'Organic')}
+                    className={`flex-1 px-3 py-2 text-sm transition-colors ${
+                      user.installSource === 'Organic'
+                        ? 'bg-emerald-50 text-emerald-700 font-medium'
+                        : 'bg-white text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    Organic
+                  </button>
+                  <div className="w-px bg-slate-200"></div>
+                  <button
+                    onClick={() => updateField('installSource', 'Inorganic')}
+                    className={`flex-1 px-3 py-2 text-sm transition-colors ${
+                      user.installSource === 'Inorganic'
+                        ? 'bg-orange-50 text-orange-700 font-medium'
+                        : 'bg-white text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    Inorganic
+                  </button>
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-slate-600 mb-1">City Tier</label>
+                <select 
+                  value={user.cityTier}
+                  onChange={(e) => updateField('cityTier', parseInt(e.target.value))}
+                  className="w-full p-2 border border-slate-200 rounded-md text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                >
+                  <option value={1}>Tier 1 (Metro)</option>
+                  <option value={2}>Tier 2</option>
+                  <option value={3}>Tier 3 (Rural)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Device Type */}
+            <div>
+               <label className="block text-sm font-medium text-slate-600 mb-1">Device Type</label>
                 <div className="flex space-x-2">
                   {['Android', 'iOS', 'Web'].map(type => (
                     <button
@@ -74,19 +117,6 @@ export const UserSimulator: React.FC = () => {
                     </button>
                   ))}
                 </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-600 mb-1">City Tier</label>
-                <select 
-                  value={user.cityTier}
-                  onChange={(e) => updateField('cityTier', parseInt(e.target.value))}
-                  className="w-full p-2 border border-slate-200 rounded-md text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-                >
-                  <option value={1}>Tier 1 (Metro)</option>
-                  <option value={2}>Tier 2</option>
-                  <option value={3}>Tier 3 (Rural)</option>
-                </select>
-              </div>
             </div>
 
             {/* Engagement Metrics */}

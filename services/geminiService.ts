@@ -18,6 +18,7 @@ export const generateUserInsight = async (user: UserProfile, decision: PricingDe
     You are a Senior Pricing Analyst for EdTech. Analyze this user profile and the pricing engine's decision.
     
     User Profile:
+    - Install Source: ${user.installSource}
     - Device: ${user.deviceType}
     - City Tier: ${user.cityTier}
     - Mock Tests Taken: ${user.mockTestsTaken}
@@ -58,7 +59,7 @@ export const generateBatchStrategySummary = async (metrics: { conversionRate: nu
     - Revenue Uplift: ${metrics.revenueUplift}%
     - Average Order Value (AOV) Uplift: ${metrics.aov}%
     
-    The strategy uses dynamic discounting (0-75%) based on Intent, Affordability, and Churn scores.
+    The strategy uses dynamic discounting (0-75%) based on Intent, Affordability, and Churn scores, including factors like Install Source (Organic vs Inorganic).
     Write a short executive summary (max 50 words) confirming the success of the hypothesis or suggesting a tweak.
   `;
 

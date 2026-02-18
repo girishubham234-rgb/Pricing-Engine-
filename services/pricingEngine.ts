@@ -9,8 +9,12 @@ export const calculateScores = (user: UserProfile): UserScores => {
   if (user.mockTestsTaken > 2) intent += 0.3;
   if (user.addedToCart) intent += 0.3;
   if (user.pageVisits > 3) intent += 0.2;
-  // Cap intent at 1.0 (though logic implies it sums up, usually normalized)
-  // Based on python snippet: max potential is 0.8 from these rules alone.
+  
+  // Organic users usually have higher intrinsic intent
+  if (user.installSource === 'Organic') intent += 0.2;
+  
+  // Cap intent visually for consistency, though raw score is useful
+  // Max possible: 1.0
 
   // Affordability Score
   if (user.deviceType === 'iOS') {
@@ -35,6 +39,9 @@ export const calculateScores = (user: UserProfile): UserScores => {
   if (user.isUninstalled) churn += 0.4;
   if (user.lastActiveDays > 30) churn += 0.3;
   if (user.competitorSignal) churn += 0.3;
+  
+  // Inorganic (Ad-acquired) users often have higher initial churn risk
+  if (user.installSource === 'Inorganic') churn += 0.2;
 
   return {
     intentScore: parseFloat(intent.toFixed(2)),

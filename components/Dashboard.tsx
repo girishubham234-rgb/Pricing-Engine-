@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Sector, Legend } from 'recharts';
 import { generateBatchStrategySummary } from '../services/geminiService';
-import { TrendingUp, Users, DollarSign, Activity, ArrowUpRight } from 'lucide-react';
+import { TrendingUp, Users, DollarSign, Activity, ArrowUpRight, CheckCircle } from 'lucide-react';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
@@ -94,7 +94,7 @@ export const Dashboard: React.FC = () => {
     // Generate a static summary on load for the demo effect
     const fetchSummary = async () => {
       const summary = await generateBatchStrategySummary({
-        conversionRate: 18.5,
+        conversionRate: 18.2,
         revenueUplift: 24.2,
         aov: 17.0
       });
@@ -108,7 +108,7 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-8 max-w-[1400px] mx-auto space-y-8">
       {/* Header */}
       <div className="flex justify-between items-end">
         <div>
@@ -122,7 +122,7 @@ export const Dashboard: React.FC = () => {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 transition-hover hover:shadow-md">
           <div className="flex justify-between items-start mb-4">
             <div className="p-3 bg-indigo-50 rounded-lg">
@@ -160,6 +160,20 @@ export const Dashboard: React.FC = () => {
           </div>
           <h3 className="text-slate-500 text-sm font-medium">Avg Order Value</h3>
           <p className="text-3xl font-bold text-slate-800 mt-1">₹1,240</p>
+        </div>
+
+        {/* New KPI Card: AOV Uplift */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 transition-hover hover:shadow-md">
+           <div className="flex justify-between items-start mb-4">
+            <div className="p-3 bg-teal-50 rounded-lg">
+              <Activity className="text-teal-600" size={24} />
+            </div>
+            <span className="text-green-500 flex items-center text-sm font-semibold">
+              Target Met <CheckCircle size={14} className="ml-1" />
+            </span>
+          </div>
+          <h3 className="text-slate-500 text-sm font-medium">AOV Uplift</h3>
+          <p className="text-3xl font-bold text-slate-800 mt-1">+17.0%</p>
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 transition-hover hover:shadow-md">
